@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>江西粤东气象社区交流安全中心 - 管理员控制台</title>
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                        secondary: '#3b82f6',
+                        accent: '#f59e0b',
+                        danger: '#dc2626',
+                        success: '#10b981',
+                        light: '#f3f4f6',
+                        dark: '#1f2937'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .bg-gradient-primary {
+                background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            .transition-all-300 {
+                transition: all 300ms ease-in-out;
+            }
+        }
+    </style>
+    <style>
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: #f8fafc;
+        }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: #1e40af;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+            z-index: 100;
+        }
+        .sidebar-header {
+            padding: 16px;
+            background-color: #1e3a8a;
+            text-align: center;
+        }
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .sidebar-subtitle {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        .nav-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .nav-item {
+            padding: 0;
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .nav-link:hover {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .nav-link.active {
+            background-color: #3b82f6;
+            color: white;
+            border-left: 4px solid white;
+        }
+        .nav-icon {
+            margin-right: 12px;
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1e40af;
+        }
+        .user-menu {
+            display: flex;
+            align-items: center;
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 12px;
+        }
+        .user-name {
+            font-weight: 500;
+            color: #1f2937;
+        }
+        .dropdown-menu {
+            position: relative;
+            margin-left: 12px;
+        }
+        .dropdown-toggle {
+            background: none;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+        }
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-radius: 4px;
+            padding: 8px 0;
+            z-index: 1000;
+            display: none;
+        }
+        .dropdown-content.show {
+            display: block;
+        }
+        .dropdown-item {
+            display: block;
+            padding: 8px 16px;
+            color: #1f2937;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        .dropdown-item:hover {
+            background-color: #f3f4f6;
+        }
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1e40af;
+            display: flex;
+            align-items: center;
+        }
+        .card-title i {
+            margin-right: 8px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+        }
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            color: white;
+        }
+        .stat-icon-users {
+            background-color: #3b82f6;
+        }
+        .stat-icon-reports {
+            background-color: #ef4444;
+        }
+        .stat-icon-appeals {
+            background-color: #f59e0b;
+        }
+        .stat-icon-punishments {
+            background-color: #8b5cf6;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #1f2937;
+        }
+        .stat-label {
+            font-size: 14px;
+            color: #6b7280;
+        }
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .chart-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 16px;
+        }
+        .chart-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: #1e40af;
+        }
+        .chart-wrapper {
+            height: 300px;
+        }
+        .recent-activities {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 16px;
+        }
+        .activity-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .activity-item {
+            display: flex;
+            padding: 12px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        .activity-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: white;
+            flex-shrink: 0;
+        }
+        .activity-icon-report {
+            background-color: #ef4444;
+        }
+        .activity-icon-appeal {
+            background-color: #f59e0b;
+        }
+        .activity-icon-punishment {
+            background-color: #8b5cf6;
+        }
+        .activity-content {
+            flex: 1;
+        }
+        .activity-title {
+            font-weight: 500;
+            margin-bottom: 4px;
+            color: #1f2937;
+        }
+        .activity-description {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+        .activity-time {
+            font-size: 12px;
+            color: #9ca3af;
+        }
+        .view-all {
+            text-align: center;
+            margin-top: 16px;
+        }
+        .view-all-link {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        .view-all-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">江西粤东气象社区</div>
+            <div class="sidebar-subtitle">安全中心管理后台</div>
+        </div>
+        
+        <ul class="nav-list">
+            <li class="nav-item">
+                <a href="dashboard.html" class="nav-link active">
+                    <i class="fa fa-dashboard nav-icon"></i>
+                    <span>控制台</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fa fa-user nav-icon"></i>
+                    <span>用户名</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fa fa-users nav-icon"></i>
+                    <span>团队管理</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="reports.html" class="nav-link">
+                    <i class="fa fa-flag nav-icon"></i>
+                    <span>举报处理</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="appeals.html" class="nav-link">
+                    <i class="fa fa-exclamation-circle nav-icon"></i>
+                    <span>申诉处理</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fa fa-comments nav-icon"></i>
+                    <span>意见处理</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fa fa-gavel nav-icon"></i>
+                    <span>处罚管理</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fa fa-book nav-icon"></i>
+                    <span>规范管理</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fa fa-bullhorn nav-icon"></i>
+                    <span>公告管理</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fa fa-cog nav-icon"></i>
+                    <span>系统设置</span>
+                </a>
+            </li>
+        </ul>
+    </aside>
+    
+    <!-- 主要内容 -->
+    <main class="main-content">
+        <div class="header">
+            <h1 class="page-title">控制台</h1>
+            
+            <div class="user-menu">
+                <img src="https://randomuser.me/api/portraits/women/2.jpg" alt="管理员头像" class="user-avatar">
+                <span class="user-name">我就是天才</span>
+                
+                <div class="dropdown-menu">
+                    <button class="dropdown-toggle" id="dropdown-toggle">
+                        <i class="fa fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-content" id="dropdown-content">
+                        <a href="#" class="dropdown-item">
+                            <i class="fa fa-user-circle mr-2"></i> 个人资料
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <i class="fa fa-cog mr-2"></i> 账号设置
+                        </a>
+                        <a href="#" class="dropdown-item" id="logout-btn">
+                            <i class="fa fa-sign-out mr-2"></i> 退出登录
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 统计卡片 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-users">
+                    <i class="fa fa-users"></i>
+                </div>
+                <div class="stat-value" id="user-count">0</div>
+                <div class="stat-label">社区用户</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-reports">
+                    <i class="fa fa-flag"></i>
+                </div>
+                <div class="stat-value" id="report-count">0</div>
+                <div class="stat-label">举报总数</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-appeals">
+                    <i class="fa fa-exclamation-circle"></i>
+                </div>
+                <div class="stat-value" id="appeal-count">0</div>
+                <div class="stat-label">申诉总数</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-punishments">
+                    <i class="fa fa-gavel"></i>
+                </div>
+                <div class="stat-value" id="punishment-count">0</div>
+                <div class="stat-label">处罚总数</div>
+            </div>
+        </div>
+        
+        <!-- 图表区域 -->
+        <div class="charts-grid">
+            <div class="chart-container">
+                <div class="chart-title">举报类型分布</div>
+                <div class="chart-wrapper">
+                    <canvas id="report-type-chart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">近7天举报趋势</div>
+                <div class="chart-wrapper">
+                    <canvas id="report-trend-chart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 最近活动 -->
+        <div class="recent-activities card">
+            <div class="card-title">
+                <i class="fa fa-clock-o"></i> 最近活动
+            </div>
+            
+            <ul class="activity-list" id="activity-list">
+                <!-- 活动记录将通过JavaScript动态生成 -->
+            </ul>
+            
+            <div class="view-all">
+                <a href="#" class="view-all-link">查看全部活动</a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // 获取当前用户
+        function getCurrentUser() {
+            const user = localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser');
+            return user ? JSON.parse(user) : null;
+        }
+        
+        // 检查管理员登录状态
+        function checkAdminStatus() {
+            const user = getCurrentUser();
+            if (!user || user.role !== 'admin') {
+                window.location.href = '../index.html';
+                return false;
+            }
+            return user;
+        }
+        
+        // 格式化日期
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleString('zh-CN', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+        
+        // 加载统计数据
+        function loadStats() {
+            // 加载用户总数
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            document.getElementById('user-count').textContent = users.length;
+            
+            // 加载举报总数
+            const reports = JSON.parse(localStorage.getItem('reports') || '[]');
+            document.getElementById('report-count').textContent = reports.length;
+            
+            // 加载申诉总数
+            const appeals = JSON.parse(localStorage.getItem('appeals') || '[]');
+            document.getElementById('appeal-count').textContent = appeals.length;
+            
+            // 加载处罚总数
+            const punishments = JSON.parse(localStorage.getItem('punishments') || '[]');
+            document.getElementById('punishment-count').textContent = punishments.length;
+        }
+        
+        // 创建举报类型分布图表
+        function createReportTypeChart() {
+            const reports = JSON.parse(localStorage.getItem('reports') || '[]');
+            
+            // 统计各类型举报数量
+            const typeCounts = {};
+            reports.forEach(report => {
+                if (typeCounts[report.violationType]) {
+                    typeCounts[report.violationType]++;
+                } else {
+                    typeCounts[report.violationType] = 1;
+                }
+            });
+            
+            const ctx = document.getElementById('report-type-chart').getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(typeCounts),
+                    datasets: [{
+                        data: Object.values(typeCounts),
+                        backgroundColor: [
+                            '#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899', '#6b7280'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // 创建近7天举报趋势图表
+        function createReportTrendChart() {
+            const reports = JSON.parse(localStorage.getItem('reports') || '[]');
+            
+            // 获取近7天的日期
+            const dates = [];
+            const dateCounts = {};
+            
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                const dateStr = date.toISOString().split('T')[0];
+                dates.push(dateStr);
+                dateCounts[dateStr] = 0;
+            }
+            
+            // 统计每天的举报数量
+            reports.forEach(report => {
+                const reportDate = new Date(report.createdAt);
+                const reportDateStr = reportDate.toISOString().split('T')[0];
+                
+                if (dateCounts[reportDateStr] !== undefined) {
+                    dateCounts[reportDateStr]++;
+                }
+            });
+            
+            // 格式化日期标签
+            const formattedDates = dates.map(date => {
+                const d = new Date(date);
+                return `${d.getMonth() + 1}/${d.getDate()}`;
+            });
+            
+            const ctx = document.getElementById('report-trend-chart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: formattedDates,
+                    datasets: [{
+                        label: '举报数量',
+                        data: dates.map(date => dateCounts[date]),
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+        
+        // 加载最近活动
+        function loadRecentActivities() {
+            const reports = JSON.parse(localStorage.getItem('reports') || '[]');
+            const appeals = JSON.parse(localStorage.getItem('appeals') || '[]');
+            const punishments = JSON.parse(localStorage.getItem('punishments') || '[]');
+            
+            // 创建活动记录
+            const activities = [];
+            
+            // 添加举报记录
+            reports.slice(-5).forEach(report => {
+                activities.push({
+                    type: 'report',
+                    title: '新举报提交',
+                    description: `用户举报了 ${report.reportedUsername} (${report.reportedQq})`,
+                    time: report.createdAt
+                });
+            });
+            
+            // 添加申诉记录
+            appeals.slice(-5).forEach(appeal => {
+                activities.push({
+                    type: 'appeal',
+                    title: '新申诉提交',
+                    description: `用户提交了申诉 #${appeal.id}`,
+                    time: appeal.createdAt
+                });
+            });
+            
+            // 添加处罚记录
+            punishments.slice(-5).forEach(punishment => {
+                activities.push({
+                    type: 'punishment',
+                    title: '新处罚执行',
+                    description: `对用户执行了 ${punishment.type} 处罚`,
+                    time: punishment.startTime
+                });
+            });
+            
+            // 按时间排序
+            activities.sort((a, b) => new Date(b.time) - new Date(a.time));
+            
+            // 显示最近5条活动
+            const activityList = document.getElementById('activity-list');
+            activityList.innerHTML = '';
+            
+            activities.slice(0, 5).forEach(activity => {
+                const listItem = document.createElement('li');
+                listItem.className = 'activity-item';
+                
+                let iconClass = 'activity-icon-report';
+                let iconName = 'flag';
+                
+                if (activity.type === 'appeal') {
+                    iconClass = 'activity-icon-appeal';
+                    iconName = 'exclamation-circle';
+                } else if (activity.type === 'punishment') {
+                    iconClass = 'activity-icon-punishment';
+                    iconName = 'gavel';
+                }
+                
+                listItem.innerHTML = `
+                    <div class="activity-icon ${iconClass}">
+                        <i class="fa fa-${iconName}"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-title">${activity.title}</div>
+                        <div class="activity-description">${activity.description}</div>
+                        <div class="activity-time">${formatDate(activity.time)}</div>
+                    </div>
+                `;
+                
+                activityList.appendChild(listItem);
+            });
+        }
+        
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            const user = checkAdminStatus();
+            if (!user) return;
+            
+            // 加载统计数据
+            loadStats();
+            
+            // 创建图表
+            createReportTypeChart();
+            createReportTrendChart();
+            
+            // 加载最近活动
+            loadRecentActivities();
+            
+            // 下拉菜单切换
+            const dropdownToggle = document.getElementById('dropdown-toggle');
+            const dropdownContent = document.getElementById('dropdown-content');
+            
+            dropdownToggle.addEventListener('click', function() {
+                dropdownContent.classList.toggle('show');
+            });
+            
+            // 点击页面其他地方关闭下拉菜单
+            window.addEventListener('click', function(event) {
+                if (!event.target.matches('#dropdown-toggle') && !event.target.matches('#dropdown-toggle i')) {
+                    dropdownContent.classList.remove('show');
+                }
+            });
+            
+            // 退出登录
+            document.getElementById('logout-btn').addEventListener('click', function(event) {
+                event.preventDefault();
+                
+                if (confirm('确定要退出登录吗？')) {
+                    localStorage.removeItem('currentUser');
+                    sessionStorage.removeItem('currentUser');
+                    window.location.href = '../index.html';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

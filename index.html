@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>江西粤东气象社区交流安全中心 - 登录</title>
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                        secondary: '#3b82f6',
+                        accent: '#f59e0b',
+                        danger: '#dc2626',
+                        success: '#10b981',
+                        light: '#f3f4f6',
+                        dark: '#1f2937'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .bg-gradient-primary {
+                background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            .transition-all-300 {
+                transition: all 300ms ease-in-out;
+            }
+        }
+    </style>
+    <style>
+        body {
+            background-color: #f8fafc;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        .login-card {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .tab-button.active {
+            border-bottom: 2px solid #3b82f6;
+            color: #1e40af;
+        }
+        .input-field:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        .btn-primary:hover {
+            background-color: #1e40af;
+        }
+        .btn-secondary:hover {
+            background-color: #60a5fa;
+        }
+        .logo {
+            max-width: 120px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-md">
+        <!-- Logo -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-primary text-shadow">江西粤东气象社区交流安全中心</h1>
+        </div>
+        
+        <!-- Login Card -->
+        <div class="bg-white rounded-lg p-8 login-card">
+            <!-- Tabs -->
+            <div class="flex mb-6">
+                <button id="user-tab" class="tab-button active flex-1 py-2 text-center font-medium">普通用户登录</button>
+                <button id="admin-tab" class="tab-button flex-1 py-2 text-center font-medium text-gray-600">管理员登录</button>
+            </div>
+            
+            <!-- User Login Form -->
+            <form id="user-login-form">
+                <div class="mb-4">
+                    <label for="qq-number" class="block text-gray-700 text-sm font-medium mb-2">QQ号码</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                            <i class="fa fa-qq"></i>
+                        </span>
+                        <input type="text" id="qq-number" name="qqNumber" class="input-field w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none" placeholder="请输入QQ号码" required>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <label for="user-password" class="block text-gray-700 text-sm font-medium mb-2">密码</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                            <i class="fa fa-lock"></i>
+                        </span>
+                        <input type="password" id="user-password" name="password" class="input-field w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none" placeholder="请输入密码" required>
+                    </div>
+                </div>
+                
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center">
+                        <input type="checkbox" id="remember-me" name="rememberMe" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <label for="remember-me" class="ml-2 block text-sm text-gray-700">记住我</label>
+                    </div>
+                    <a href="#" class="text-sm text-blue-600 hover:text-blue-800">忘记密码?</a>
+                </div>
+                
+                <div class="flex space-x-3">
+                    <button type="submit" class="btn-primary flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-all-300">登录</button>
+                    <button type="button" id="register-btn" class="btn-secondary flex-1 bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium py-2 px-4 rounded-md transition-all-300">注册</button>
+                </div>
+            </form>
+            
+            <!-- Admin Login Form (Hidden by default) -->
+            <form id="admin-login-form" class="hidden">
+                <div class="mb-4">
+                    <label for="admin-username" class="block text-gray-700 text-sm font-medium mb-2">管理员账号</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                            <i class="fa fa-user-circle"></i>
+                        </span>
+                        <input type="text" id="admin-username" name="username" class="input-field w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none" placeholder="请输入管理员账号" required>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <label for="admin-password" class="block text-gray-700 text-sm font-medium mb-2">管理员密码</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                            <i class="fa fa-lock"></i>
+                        </span>
+                        <input type="password" id="admin-password" name="password" class="input-field w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none" placeholder="请输入管理员密码" required>
+                    </div>
+                </div>
+                
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center">
+                        <input type="checkbox" id="admin-remember-me" name="rememberMe" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <label for="admin-remember-me" class="ml-2 block text-sm text-gray-700">记住我</label>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-primary w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-all-300">管理员登录</button>
+            </form>
+        </div>
+        
+        <!-- Register Modal (Hidden by default) -->
+        <div id="register-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg p-8 w-full max-w-md">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-gray-900">用户注册</h2>
+                    <button id="close-modal" class="text-gray-500 hover:text-gray-700">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+                
+                <form id="register-form">
+                    <div class="mb-4">
+                        <label for="register-username" class="block text-gray-700 text-sm font-medium mb-2">用户名</label>
+                        <input type="text" id="register-username" name="username" class="input-field w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none" placeholder="请输入用户名" required>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="register-qq" class="block text-gray-700 text-sm font-medium mb-2">QQ号码</label>
+                        <input type="text" id="register-qq" name="qqNumber" class="input-field w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none" placeholder="请输入QQ号码" required>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="register-password" class="block text-gray-700 text-sm font-medium mb-2">密码</label>
+                        <input type="password" id="register-password" name="password" class="input-field w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none" placeholder="请输入密码" required>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label for="register-confirm-password" class="block text-gray-700 text-sm font-medium mb-2">确认密码</label>
+                        <input type="password" id="register-confirm-password" name="confirmPassword" class="input-field w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none" placeholder="请再次输入密码" required>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-all-300">注册</button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="text-center mt-6 text-gray-500 text-sm">
+            <p>© 2025 江西粤东气象社区交流安全中心 版权所有</p>
+        </div>
+    </div>
+
+    <script>
+        // 模拟数据
+        const mockData = {
+            users: [
+                { id: '1', username: '测试用户', qqNumber: '123456789', password: '123456', role: 'user', status: 'normal', avatar: 'https://randomuser.me/api/portraits/men/1.jpg' },
+                { id: '2', username: '我就是天才', qqNumber: 'admin', password: '189203615aazz', role: 'admin', status: 'normal', avatar: 'https://randomuser.me/api/portraits/women/2.jpg' }
+            ],
+            reports: [],
+            punishments: [],
+            appeals: []
+        };
+
+        // 初始化本地存储
+        function initLocalStorage() {
+            if (!localStorage.getItem('users')) {
+                localStorage.setItem('users', JSON.stringify(mockData.users));
+            }
+            if (!localStorage.getItem('reports')) {
+                localStorage.setItem('reports', JSON.stringify(mockData.reports));
+            }
+            if (!localStorage.getItem('punishments')) {
+                localStorage.setItem('punishments', JSON.stringify(mockData.punishments));
+            }
+            if (!localStorage.getItem('appeals')) {
+                localStorage.setItem('appeals', JSON.stringify(mockData.appeals));
+            }
+        }
+
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            initLocalStorage();
+            
+            const userTab = document.getElementById('user-tab');
+            const adminTab = document.getElementById('admin-tab');
+            const userLoginForm = document.getElementById('user-login-form');
+            const adminLoginForm = document.getElementById('admin-login-form');
+            const registerBtn = document.getElementById('register-btn');
+            const registerModal = document.getElementById('register-modal');
+            const closeModal = document.getElementById('close-modal');
+            const registerForm = document.getElementById('register-form');
+            
+            // 切换登录表单
+            userTab.addEventListener('click', function() {
+                userTab.classList.add('active');
+                adminTab.classList.remove('active');
+                userLoginForm.classList.remove('hidden');
+                adminLoginForm.classList.add('hidden');
+            });
+            
+            adminTab.addEventListener('click', function() {
+                adminTab.classList.add('active');
+                userTab.classList.remove('active');
+                adminLoginForm.classList.remove('hidden');
+                userLoginForm.classList.add('hidden');
+            });
+            
+            // 打开注册模态框
+            registerBtn.addEventListener('click', function() {
+                registerModal.classList.remove('hidden');
+            });
+            
+            // 关闭注册模态框
+            closeModal.addEventListener('click', function() {
+                registerModal.classList.add('hidden');
+            });
+            
+            // 点击模态框外部关闭
+            window.addEventListener('click', function(event) {
+                if (event.target === registerModal) {
+                    registerModal.classList.add('hidden');
+                }
+            });
+            
+            // 用户登录表单提交
+            userLoginForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                const qqNumber = document.getElementById('qq-number').value;
+                const password = document.getElementById('user-password').value;
+                const rememberMe = document.getElementById('remember-me').checked;
+                
+                const users = JSON.parse(localStorage.getItem('users'));
+                const user = users.find(u => u.qqNumber === qqNumber && u.password === password && u.role === 'user');
+                
+                if (user) {
+                    // 检查账号状态
+                    if (user.status === 'banned') {
+                        alert('您的账号已被封禁，无法登录');
+                        return;
+                    }
+                    
+                    // 保存登录状态
+                    if (rememberMe) {
+                        localStorage.setItem('currentUser', JSON.stringify(user));
+                    } else {
+                        sessionStorage.setItem('currentUser', JSON.stringify(user));
+                    }
+                    
+                    // 跳转到用户首页
+                    window.location.href = 'user/home.html';
+                } else {
+                    alert('QQ号码或密码错误，请重试');
+                }
+            });
+            
+            // 管理员登录表单提交
+            adminLoginForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                const username = document.getElementById('admin-username').value;
+                const password = document.getElementById('admin-password').value;
+                const rememberMe = document.getElementById('admin-remember-me').checked;
+                
+                const users = JSON.parse(localStorage.getItem('users'));
+                const admin = users.find(u => u.username === username && u.password === password && u.role === 'admin');
+                
+                if (admin) {
+                    // 保存登录状态
+                    if (rememberMe) {
+                        localStorage.setItem('currentUser', JSON.stringify(admin));
+                    } else {
+                        sessionStorage.setItem('currentUser', JSON.stringify(admin));
+                    }
+                    
+                    // 跳转到管理员控制台
+                    window.location.href = 'admin/dashboard.html';
+                } else {
+                    alert('管理员账号或密码错误，请重试');
+                }
+            });
+            
+            // 注册表单提交
+            registerForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                const username = document.getElementById('register-username').value;
+                const qqNumber = document.getElementById('register-qq').value;
+                const password = document.getElementById('register-password').value;
+                const confirmPassword = document.getElementById('register-confirm-password').value;
+                
+                // 验证密码是否一致
+                if (password !== confirmPassword) {
+                    alert('两次输入的密码不一致，请重试');
+                    return;
+                }
+                
+                const users = JSON.parse(localStorage.getItem('users'));
+                
+                // 检查QQ号码是否已注册
+                const existingUser = users.find(u => u.qqNumber === qqNumber);
+                if (existingUser) {
+                    alert('该QQ号码已注册，请直接登录');
+                    return;
+                }
+                
+                // 创建新用户
+                const newUser = {
+                    id: Date.now().toString(),
+                    username: username,
+                    qqNumber: qqNumber,
+                    password: password,
+                    role: 'user',
+                    status: 'normal',
+                    avatar: `https://randomuser.me/api/portraits/${Math.random() > 0.5 ? 'men' : 'women'}/${Math.floor(Math.random() * 100)}.jpg`,
+                    joinDate: new Date().toISOString(),
+                    lastLogin: new Date().toISOString(),
+                    punishmentHistory: [],
+                    reports: [],
+                    appeals: []
+                };
+                
+                // 添加到用户列表
+                users.push(newUser);
+                localStorage.setItem('users', JSON.stringify(users));
+                
+                // 关闭模态框并提示
+                registerModal.classList.add('hidden');
+                alert('注册成功，请登录');
+                
+                // 清空表单
+                registerForm.reset();
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,427 @@
+<html lang="zh-CN"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>江西粤东气象社区交流安全中心 - 首页</title>
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                        secondary: '#3b82f6',
+                        accent: '#f59e0b',
+                        danger: '#dc2626',
+                        success: '#10b981',
+                        light: '#f3f4f6',
+                        dark: '#1f2937'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .bg-gradient-primary {
+                background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            .transition-all-300 {
+                transition: all 300ms ease-in-out;
+            }
+        }
+    </style>
+    <style>
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: #f8fafc;
+            padding-bottom: 60px; /* 为底部导航栏留出空间 */
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+        .nav-item {
+            flex: 1;
+            text-align: center;
+            padding: 10px 0;
+            color: #6b7280;
+            transition: all 0.3s;
+        }
+        .nav-item.active {
+            color: #3b82f6;
+        }
+        .nav-item i {
+            display: block;
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        .nav-item span {
+            font-size: 12px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+        .banner {
+            height: 180px;
+            background-image: url('https://picsum.photos/id/1050/800/400');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .banner-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+            display: flex;
+            align-items: flex-end;
+        }
+        .banner-content {
+            padding: 16px;
+            color: white;
+        }
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 20px;
+        }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+        .feature-title {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        .feature-desc {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        .announcement-title {
+            font-weight: 500;
+            padding: 12px 16px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .announcement-content {
+            padding: 16px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .banned-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background-color: #dc2626;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            text-align: center;
+        }
+        .modal-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: #dc2626;
+        }
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .modal-message {
+            margin-bottom: 20px;
+            color: #6b7280;
+        }
+        .modal-button {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-primary">江西粤东气象社区</h1>
+            <div class="flex items-center">
+                <button id="notifications-btn" class="mr-4 text-gray-500 hover:text-primary">
+                    <i class="fa fa-bell-o"></i>
+                </button>
+                <div class="relative">
+                    <button id="user-menu-btn" class="flex items-center">
+                        <img id="user-avatar" src="" alt="用户头像" class="w-8 h-8 rounded-full object-cover">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- 主要内容 -->
+    <main class="container mx-auto px-4 py-6">
+        <!-- 欢迎横幅 -->
+        <div class="banner mb-6">
+            <div class="banner-overlay">
+                <div class="banner-content">
+                    <h2 id="welcome-message" class="text-xl font-bold">欢迎回来，用户</h2>
+                    <p class="text-sm opacity-90">今天是 <span id="current-date"></span></p>
+                </div>
+            </div>
+            <div id="banned-badge" class="banned-badge hidden">账号已封禁</div>
+        </div>
+        
+        <!-- 功能卡片区 -->
+        <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="card p-4 text-center cursor-pointer" onclick="window.location.href='report.html'">
+                <div class="bg-blue-100 text-blue-600 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3">
+                    <i class="fa fa-flag"></i>
+                </div>
+                <h3 class="font-medium">我要举报</h3>
+            </div>
+            <div class="card p-4 text-center cursor-pointer" onclick="window.location.href='progress.html'">
+                <div class="bg-green-100 text-green-600 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3">
+                    <i class="fa fa-tasks"></i>
+                </div>
+                <h3 class="font-medium">处理进度</h3>
+            </div>
+            <div class="card p-4 text-center cursor-pointer" onclick="window.location.href='notifications.html'">
+                <div class="bg-red-100 text-red-600 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3">
+                    <i class="fa fa-exclamation-circle"></i>
+                </div>
+                <h3 class="font-medium">处罚通知</h3>
+            </div>
+            <div class="card p-4 text-center cursor-pointer" onclick="window.location.href='more.html'">
+                <div class="bg-purple-100 text-purple-600 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3">
+                    <i class="fa fa-ellipsis-h"></i>
+                </div>
+                <h3 class="font-medium">更多</h3>
+            </div>
+        </div>
+        
+        <!-- 社区公告 -->
+        <div class="card mb-6">
+            <div class="announcement-title flex justify-between items-center">
+                <span>社区公告</span>
+                <span class="text-xs text-gray-500">2025-07-21</span>
+            </div>
+            <div class="announcement-content">
+                <p>为维护社区良好氛围，现发布《江西粤东气象社区交流规范》，请所有成员自觉遵守。如有违规行为，将按照规范进行处理。</p>
+                <p class="mt-2 text-blue-600 text-sm">查看详情 <i class="fa fa-angle-right"></i></p>
+            </div>
+        </div>
+        
+        <!-- 社区规则 -->
+        <div class="card">
+            <div class="announcement-title">社区规则</div>
+            <div class="p-4">
+                <ul class="text-sm text-gray-700 space-y-2">
+                    <li class="flex items-start">
+                        <i class="fa fa-check-circle text-green-500 mt-1 mr-2"></i>
+                        <span>禁止发布色情、暴力、政治敏感等违法违规内容</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fa fa-check-circle text-green-500 mt-1 mr-2"></i>
+                        <span>禁止发布与气象无关的广告信息</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fa fa-check-circle text-green-500 mt-1 mr-2"></i>
+                        <span>禁止辱骂、侮辱他人或进行人身攻击</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fa fa-check-circle text-green-500 mt-1 mr-2"></i>
+                        <span>禁止传播虚假信息或谣言</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fa fa-check-circle text-green-500 mt-1 mr-2"></i>
+                        <span>鼓励文明交流，共同维护良好的社区氛围</span>
+                    </li>
+                </ul>
+                <div class="mt-4 text-center">
+                    <button class="text-blue-600 text-sm" onclick="window.location.href='more.html'">查看完整规则 <i class="fa fa-angle-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- 底部导航栏 -->
+    <nav class="bottom-nav">
+        <div class="flex justify-around">
+            <div class="nav-item active" onclick="window.location.href='home.html'">
+                <i class="fa fa-home"></i>
+                <span>首页</span>
+            </div>
+            <div class="nav-item" onclick="window.location.href='report.html'">
+                <i class="fa fa-flag"></i>
+                <span>我要举报</span>
+            </div>
+            <div class="nav-item" onclick="window.location.href='progress.html'">
+                <i class="fa fa-tasks"></i>
+                <span>处理进度</span>
+            </div>
+            <div class="nav-item" onclick="window.location.href='more.html'">
+                <i class="fa fa-ellipsis-h"></i>
+                <span>更多</span>
+            </div>
+            <div class="nav-item" onclick="window.location.href='profile.html'">
+                <i class="fa fa-user"></i>
+                <span>我</span>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- 封禁提示模态框 -->
+    <div id="banned-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fa fa-exclamation-triangle"></i>
+            </div>
+            <h3 class="modal-title">账号已被封禁</h3>
+            <p class="modal-message">您的账号因违反社区规定已被封禁，详细原因请查看处罚通知。</p>
+            <button class="modal-button" onclick="document.getElementById('banned-modal').classList.add('hidden')">我知道了</button>
+        </div>
+    </div>
+
+    <script>
+        // 获取当前用户
+        function getCurrentUser() {
+            const user = localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser');
+            return user ? JSON.parse(user) : null;
+        }
+        
+        // 检查登录状态
+        function checkLoginStatus() {
+            const user = getCurrentUser();
+            if (!user) {
+                window.location.href = '../index.html';
+                return false;
+            }
+            return user;
+        }
+        
+        // 检查账号状态
+        function checkAccountStatus(user) {
+            if (user.status === 'banned') {
+                document.getElementById('banned-badge').classList.remove('hidden');
+                document.getElementById('banned-modal').classList.remove('hidden');
+                
+                // 禁用举报功能
+                const reportCards = document.querySelectorAll('.card');
+                reportCards[0].onclick = function() {
+                    alert('您的账号已被封禁，该功能已被限制');
+                };
+                
+                // 禁用其他功能（除了处罚通知和个人中心）
+                reportCards[2].onclick = function() {
+                    window.location.href = 'notifications.html';
+                };
+                
+                reportCards[3].onclick = function() {
+                    alert('您的账号已被封禁，该功能已被限制');
+                };
+                
+                // 底部导航栏禁用
+                const navItems = document.querySelectorAll('.nav-item');
+                navItems[1].onclick = function() {
+                    alert('您的账号已被封禁，该功能已被限制');
+                };
+                
+                navItems[2].onclick = function() {
+                    alert('您的账号已被封禁，该功能已被限制');
+                };
+                
+                navItems[3].onclick = function() {
+                    alert('您的账号已被封禁，该功能已被限制');
+                };
+            }
+        }
+        
+        // 设置当前日期
+        function setCurrentDate() {
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+            document.getElementById('current-date').textContent = now.toLocaleDateString('zh-CN', options);
+        }
+        
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            const user = checkLoginStatus();
+            if (!user) return;
+            
+            // 设置用户信息
+            document.getElementById('welcome-message').textContent = `欢迎回来，${user.username}`;
+            document.getElementById('user-avatar').src = user.avatar || 'https://randomuser.me/api/portraits/men/1.jpg';
+            
+            // 设置当前日期
+            setCurrentDate();
+            
+            // 检查账号状态
+            checkAccountStatus(user);
+            
+            // 通知按钮点击事件
+            document.getElementById('notifications-btn').addEventListener('click', function() {
+                window.location.href = 'notifications.html';
+            });
+            
+            // 用户菜单按钮点击事件
+            document.getElementById('user-menu-btn').addEventListener('click', function() {
+                window.location.href = 'profile.html';
+            });
+        });
+    </script>
+
+
+</body></html>

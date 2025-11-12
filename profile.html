@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>江西粤东气象社区交流安全中心 - 个人中心</title>
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                        secondary: '#3b82f6',
+                        accent: '#f59e0b',
+                        danger: '#dc2626',
+                        success: '#10b981',
+                        light: '#f3f4f6',
+                        dark: '#1f2937'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .bg-gradient-primary {
+                background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            .transition-all-300 {
+                transition: all 300ms ease-in-out;
+            }
+        }
+    </style>
+    <style>
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: #f8fafc;
+            padding-bottom: 60px; /* 为底部导航栏留出空间 */
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+        .nav-item {
+            flex: 1;
+            text-align: center;
+            padding: 10px 0;
+            color: #6b7280;
+            transition: all 0.3s;
+        }
+        .nav-item.active {
+            color: #3b82f6;
+        }
+        .nav-item i {
+            display: block;
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        .nav-item span {
+            font-size: 12px;
+        }
+        .profile-header {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 16px;
+            margin-bottom: 16px;
+            position: relative;
+        }
+        .avatar-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 8px;
+            border: 2px solid #f3f4f6;
+        }
+        .username {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e40af;
+        }
+        .user-id {
+            font-size: 14px;
+            color: #6b7280;
+        }
+        .status-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status-normal {
+            background-color: #4ade80;
+            color: #166534;
+        }
+        .status-banned {
+            background-color: #fca5a5;
+            color: #991b1b;
+        }
+        .status-muted {
+            background-color: #fcd34d;
+            color: #92400e;
+        }
+        .profile-section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1e40af;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .info-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .info-item:last-child {
+            border-bottom: none;
+        }
+        .info-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: white;
+        }
+        .info-icon-qq {
+            background-color: #3b82f6;
+        }
+        .info-icon-join {
+            background-color: #10b981;
+        }
+        .info-icon-login {
+            background-color: #f59e0b;
+        }
+        .info-icon-status {
+            background-color: #8b5cf6;
+        }
+        .info-content {
+            flex: 1;
+        }
+        .info-label {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+        .info-value {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1f2937;
+        }
+        .action-button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-align: center;
+        }
+        .action-button:hover {
+            background-color: #2563eb;
+        }
+        .action-button-logout {
+            background-color: #f3f4f6;
+            color: #dc2626;
+        }
+        .action-button-logout:hover {
+            background-color: #fee2e2;
+        }
+        .punishment-info {
+            background-color: #fef2f2;
+            border-radius: 6px;
+            padding: 12px;
+            margin-top: 16px;
+        }
+        .punishment-title {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #991b1b;
+        }
+        .punishment-item {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .punishment-item:last-child {
+            margin-bottom: 0;
+        }
+        .punishment-reason {
+            font-weight: 500;
+            color: #991b1b;
+        }
+        .punishment-duration {
+            color: #6b7280;
+        }
+        .punishment-date {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+            padding: 24px;
+            text-align: center;
+        }
+        .modal-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: #f59e0b;
+        }
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .modal-message {
+            margin-bottom: 24px;
+            color: #6b7280;
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        .modal-button {
+            flex: 1;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .modal-button-primary {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+        }
+        .modal-button-secondary {
+            background-color: #f3f4f6;
+            color: #4b5563;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-primary">个人中心</h1>
+            <button id="settings-btn" class="text-gray-500 hover:text-primary">
+                <i class="fa fa-cog"></i>
+            </button>
+        </div>
+    </header>
+    
+    <!-- 主要内容 -->
+    <main class="container mx-auto px-4 py-6">
+        <!-- 个人信息头部 -->
+        <div class="profile-header">
+            <div class="avatar-container">
+                <img id="user-avatar" src="" alt="用户头像" class="avatar">
+                <div class="username" id="user-name">--</div>
+                <div class="user-id" id="user-qq">--</div>
+            </div>
+            
+            <div id="status-badge" class="status-badge status-normal">账号正常</div>
+        </div>
+        
+        <!-- 个人信息 -->
+        <div class="profile-section">
+            <div class="section-title">个人信息</div>
+            
+            <div class="info-item">
+                <div class="info-icon info-icon-qq">
+                    <i class="fa fa-qq"></i>
+                </div>
+                <div class="info-content">
+                    <div class="info-label">QQ号码</div>
+                    <div class="info-value" id="info-qq">--</div>
+                </div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-icon info-icon-join">
+                    <i class="fa fa-calendar"></i>
+                </div>
+                <div class="info-content">
+                    <div class="info-label">加入时间</div>
+                    <div class="info-value" id="info-join-date">--</div>
+                </div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-icon info-icon-login">
+                    <i class="fa fa-sign-in"></i>
+                </div>
+                <div class="info-content">
+                    <div class="info-label">最后登录</div>
+                    <div class="info-value" id="info-last-login">--</div>
+                </div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-icon info-icon-status">
+                    <i class="fa fa-check-circle"></i>
+                </div>
+                <div class="info-content">
+                    <div class="info-label">账号状态</div>
+                    <div class="info-value" id="info-status">正常</div>
+                </div>
+            </div>
+            
+            <!-- 封禁信息（仅当账号被封禁时显示） -->
+            <div id="punishment-info" class="punishment-info hidden">
+                <div class="punishment-title">封禁信息</div>
+                <div class="punishment-item">
+                    <div class="punishment-reason" id="punishment-reason">--</div>
+                    <div class="punishment-duration" id="punishment-duration">--</div>
+                    <div class="punishment-date" id="punishment-date">--</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 我的数据 -->
+        <div class="profile-section">
+            <div class="section-title">我的数据</div>
+            
+            <div class="info-item">
+                <div class="info-icon info-icon-qq" style="background-color: #ef4444;">
+                    <i class="fa fa-flag"></i>
+                </div>
+                <div class="info-content">
+                    <div class="info-label">举报次数</div>
+                    <div class="info-value" id="report-count">0</div>
+                </div>
+                <button class="text-blue-600 text-sm" onclick="window.location.href='progress.html'">查看</button>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-icon info-icon-qq" style="background-color: #8b5cf6;">
+                    <i class="fa fa-exclamation-circle"></i>
+                </div>
+                <div class="info-content">
+                    <div class="info-label">处罚次数</div>
+                    <div class="info-value" id="punishment-count">0</div>
+                </div>
+                <button class="text-blue-600 text-sm" onclick="window.location.href='notifications.html'">查看</button>
+            </div>
+        </div>
+        
+        <!-- 操作按钮 -->
+        <div class="profile-section">
+            <button id="logout-btn" class="action-button action-button-logout">退出登录</button>
+        </div>
+    </main>
+    
+    <!-- 底部导航栏 -->
+    <nav class="bottom-nav">
+        <div class="flex justify-around">
+            <div class="nav-item" onclick="window.location.href='home.html'">
+                <i class="fa fa-home"></i>
+                <span>首页</span>
+            </div>
+            <div class="nav-item" onclick="window.location.href='report.html'">
+                <i class="fa fa-flag"></i>
+                <span>我要举报</span>
+            </div>
+            <div class="nav-item" onclick="window.location.href='progress.html'">
+                <i class="fa fa-tasks"></i>
+                <span>处理进度</span>
+            </div>
+            <div class="nav-item" onclick="window.location.href='more.html'">
+                <i class="fa fa-ellipsis-h"></i>
+                <span>更多</span>
+            </div>
+            <div class="nav-item active" onclick="window.location.href='profile.html'">
+                <i class="fa fa-user"></i>
+                <span>我</span>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- 退出登录确认模态框 -->
+    <div id="logout-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fa fa-question-circle"></i>
+            </div>
+            <h3 class="modal-title">确认退出登录</h3>
+            <p class="modal-message">您确定要退出当前登录吗？</p>
+            <div class="modal-buttons">
+                <button class="modal-button modal-button-secondary" id="cancel-logout">取消</button>
+                <button class="modal-button modal-button-primary" id="confirm-logout">确认</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 获取当前用户
+        function getCurrentUser() {
+            const user = localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser');
+            return user ? JSON.parse(user) : null;
+        }
+        
+        // 检查登录状态
+        function checkLoginStatus() {
+            const user = getCurrentUser();
+            if (!user) {
+                window.location.href = '../index.html';
+                return false;
+            }
+            return user;
+        }
+        
+        // 格式化日期
+        function formatDate(dateString) {
+            if (!dateString) return '--';
+            const date = new Date(dateString);
+            return date.toLocaleString('zh-CN', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+        
+        // 加载用户信息
+        function loadUserInfo(user) {
+            // 更新用户头像和名称
+            document.getElementById('user-avatar').src = user.avatar || 'https://randomuser.me/api/portraits/men/1.jpg';
+            document.getElementById('user-name').textContent = user.username || '--';
+            document.getElementById('user-qq').textContent = 'QQ: ' + (user.qqNumber || '--');
+            
+            // 更新个人信息
+            document.getElementById('info-qq').textContent = user.qqNumber || '--';
+            document.getElementById('info-join-date').textContent = formatDate(user.joinDate);
+            document.getElementById('info-last-login').textContent = formatDate(user.lastLogin || user.joinDate);
+            
+            // 更新账号状态
+            updateAccountStatus(user);
+            
+            // 更新数据统计
+            updateDataStats(user);
+        }
+        
+        // 更新账号状态
+        function updateAccountStatus(user) {
+            const statusBadge = document.getElementById('status-badge');
+            const infoStatus = document.getElementById('info-status');
+            const punishmentInfo = document.getElementById('punishment-info');
+            
+            switch (user.status) {
+                case 'banned':
+                    statusBadge.className = 'status-badge status-banned';
+                    statusBadge.textContent = '账号已封禁';
+                    infoStatus.textContent = '已封禁';
+                    
+                    // 加载最新的封禁信息
+                    const punishments = JSON.parse(localStorage.getItem('punishments') || '[]');
+                    const activePunishments = punishments.filter(p => 
+                        p.userId === user.id && 
+                        p.type === 'ban' && 
+                        (p.duration === 0 || new Date(p.endTime) > new Date())
+                    );
+                    
+                    if (activePunishments.length > 0) {
+                        const latestPunishment = activePunishments.sort((a, b) => new Date(b.startTime) - new Date(a.startTime))[0];
+                        
+                        document.getElementById('punishment-reason').textContent = latestPunishment.reason;
+                        
+                        let durationText = '';
+                        if (latestPunishment.duration === 0) {
+                            durationText = '永久封禁';
+                        } else {
+                            const days = Math.floor(latestPunishment.duration / 1440);
+                            durationText = `封禁 ${days} 天`;
+                        }
+                        
+                        document.getElementById('punishment-duration').textContent = durationText;
+                        document.getElementById('punishment-date').textContent = '生效时间: ' + formatDate(latestPunishment.startTime);
+                        
+                        punishmentInfo.classList.remove('hidden');
+                    }
+                    break;
+                    
+                case 'muted':
+                    statusBadge.className = 'status-badge status-muted';
+                    statusBadge.textContent = '账号已禁言';
+                    infoStatus.textContent = '已禁言';
+                    punishmentInfo.classList.add('hidden');
+                    break;
+                    
+                default:
+                    statusBadge.className = 'status-badge status-normal';
+                    statusBadge.textContent = '账号正常';
+                    infoStatus.textContent = '正常';
+                    punishmentInfo.classList.add('hidden');
+            }
+        }
+        
+        // 更新数据统计
+        function updateDataStats(user) {
+            // 统计举报次数
+            const reports = JSON.parse(localStorage.getItem('reports') || '[]');
+            const userReports = reports.filter(r => r.reporterId === user.id);
+            document.getElementById('report-count').textContent = userReports.length;
+            
+            // 统计处罚次数
+            const punishments = JSON.parse(localStorage.getItem('punishments') || '[]');
+            const userPunishments = punishments.filter(p => p.userId === user.id);
+            document.getElementById('punishment-count').textContent = userPunishments.length;
+        }
+        
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            const user = checkLoginStatus();
+            if (!user) return;
+            
+            // 加载用户信息
+            loadUserInfo(user);
+            
+            // 退出登录按钮点击事件
+            document.getElementById('logout-btn').addEventListener('click', function() {
+                document.getElementById('logout-modal').classList.remove('hidden');
+            });
+            
+            // 取消退出登录
+            document.getElementById('cancel-logout').addEventListener('click', function() {
+                document.getElementById('logout-modal').classList.add('hidden');
+            });
+            
+            // 确认退出登录
+            document.getElementById('confirm-logout').addEventListener('click', function() {
+                localStorage.removeItem('currentUser');
+                sessionStorage.removeItem('currentUser');
+                window.location.href = '../index.html';
+            });
+            
+            // 设置按钮点击事件
+            document.getElementById('settings-btn').addEventListener('click', function() {
+                alert('设置功能正在开发中，敬请期待！');
+            });
+        });
+    </script>
+</body>
+</html>

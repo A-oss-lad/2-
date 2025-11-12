@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>江西粤东气象社区交流安全中心 - 我要举报</title>
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                        secondary: '#3b82f6',
+                        accent: '#f59e0b',
+                        danger: '#dc2626',
+                        success: '#10b981',
+                        light: '#f3f4f6',
+                        dark: '#1f2937'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .bg-gradient-primary {
+                background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            .transition-all-300 {
+                transition: all 300ms ease-in-out;
+            }
+        }
+    </style>
+    <style>
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: #f8fafc;
+            padding-bottom: 60px; /* 为底部导航栏留出空间 */
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+        .nav-item {
+            flex: 1;
+            text-align: center;
+            padding: 10px 0;
+            color: #6b7280;
+            transition: all 0.3s;
+        }
+        .nav-item.active {
+            color: #3b82f6;
+        }
+        .nav-item i {
+            display: block;
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        .nav-item span {
+            font-size: 12px;
+        }
+        .form-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .form-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1e40af;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #4b5563;
+        }
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .radio-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .radio-item:hover {
+            border-color: #3b82f6;
+        }
+        .radio-item input {
+            margin-right: 8px;
+        }
+        .radio-item.selected {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+        }
+        .file-upload {
+            border: 2px dashed #d1d5db;
+            border-radius: 6px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .file-upload:hover {
+            border-color: #3b82f6;
+            background-color: #f9fafb;
+        }
+        .file-upload i {
+            font-size: 24px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+        .file-upload-text {
+            color: #6b7280;
+            font-size: 14px;
+        }
+        .file-upload input {
+            display: none;
+        }
+        .file-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        .file-preview-item {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .file-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .file-preview-remove {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            cursor: pointer;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .submit-btn:hover {
+            background-color: #2563eb;
+        }
+        .submit-btn:disabled {
+            background-color: #93c5fd;
+            cursor: not-allowed;
+        }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+            padding: 24px;
+            text-align: center;
+        }
+        .modal-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: #10b981;
+        }
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .modal-message {
+            margin-bottom: 24px;
+            color: #6b7280;
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        .modal-button {
+            flex: 1;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .modal-button-primary {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+        }
+        .modal-button-secondary {
+            background-color: #f3f4f6;
+            color: #4b5563;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-primary">我要举报</h1>
+            <button id="back-btn" class="text-gray-500 hover:text-primary">
+                <i class="fa fa-arrow-left"></i>
+            </button>
+        </div>
+    </header>
+    
+    <!-- 主要内容 -->
+    <main class="container mx-auto px-4 py-6">
+        <form id="report-form" class="form-container">
+            <div class="form-group">
+                <label class="form-label" for="reported-username">被举报人用户名</label>
+                <input type="text" id="reported-username" name="reportedUsername" class="form-input" placeholder="请输入被举报人用户名" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="reported-qq">被举报人QQ号码</label>
+                <input type="text" id="reported-qq" name="reportedQq" class="form-input" placeholder="请输入被举报人QQ号码" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">涉及群聊</label>
+                <div class="radio-group">
+                    <label class="radio-item">
+                        <input type="radio" name="group" value="江西气象爱好者" required>
+                        <span>江西气象爱好者</span>
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="group" value="粤东气象爱好者">
+                        <span>粤东气象爱好者</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">违规类型</label>
+                <div class="radio-group">
+                    <label class="radio-item">
+                        <input type="radio" name="violationType" value="色情低容/资源" required>
+                        <span>色情低容/资源</span>
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="violationType" value="政治敏感">
+                        <span>政治敏感</span>
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="violationType" value="辱骂/侮辱他人">
+                        <span>辱骂/侮辱他人</span>
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="violationType" value="虚假/谣言信息">
+                        <span>虚假/谣言信息</span>
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="violationType" value="无关的广告信息">
+                        <span>无关的广告信息</span>
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="violationType" value="私信骚扰">
+                        <span>私信骚扰</span>
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="violationType" value="其他">
+                        <span>其他</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div id="other-reason-group" class="form-group hidden">
+                <label class="form-label" for="other-reason">请说明其他违规类型</label>
+                <input type="text" id="other-reason" name="otherReason" class="form-input" placeholder="请详细描述违规类型">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="description">描述经历</label>
+                <textarea id="description" name="description" class="form-textarea" placeholder="请详细描述违规行为，包括时间、地点、具体内容等信息" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">附件证据</label>
+                <div class="file-upload">
+                    <input type="file" id="evidence-upload" name="evidence" accept="image/*" multiple>
+                    <i class="fa fa-cloud-upload"></i>
+                    <div class="file-upload-text">点击上传图片证据（支持多张）</div>
+                </div>
+                <div id="file-preview" class="file-preview"></div>
+            </div>
+            
+            <button type="submit" class="submit-btn">提交举报</button>
+        </form>
+    </main>
+    
+    <!-- 底部导航栏 -->
+    <nav class="bottom-nav">
+        <div class="flex justify-around">
+            <div class="nav-item" onclick="window.location.href='home.html'">
+                <i class="fa fa-home"></i>
+                <span>首页</span>
+            </div>
+            <div class="nav-item active" onclick="window.location.href='report.html'">
+                <i class="fa fa-flag"></i>
+                <span>我要举报</span>
+            </div>
+            <div class="nav-item" onclick="window.location.href='progress.html'">
+                <i class="fa fa-tasks"></i>
+                <span>处理进度</span>
+            </div>
+            <div class="nav-item" onclick="window.location.href='more.html'">
+                <i class="fa fa-ellipsis-h"></i>
+                <span>更多</span>
+            </div>
+            <div class="nav-item" onclick="window.location.href='profile.html'">
+                <i class="fa fa-user"></i>
+                <span>我</span>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- 提交成功模态框 -->
+    <div id="success-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fa fa-check-circle"></i>
+            </div>
+            <h3 class="modal-title">举报提交成功</h3>
+            <p class="modal-message">您的举报已成功提交，我们将尽快处理并通知您处理结果。</p>
+            <div class="modal-buttons">
+                <button class="modal-button modal-button-secondary" onclick="window.location.href='home.html'">返回首页</button>
+                <button class="modal-button modal-button-primary" onclick="window.location.href='progress.html'">查看进度</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 获取当前用户
+        function getCurrentUser() {
+            const user = localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser');
+            return user ? JSON.parse(user) : null;
+        }
+        
+        // 检查登录状态
+        function checkLoginStatus() {
+            const user = getCurrentUser();
+            if (!user) {
+                window.location.href = '../index.html';
+                return false;
+            }
+            
+            // 检查账号状态
+            if (user.status === 'banned') {
+                alert('您的账号已被封禁，无法使用此功能');
+                window.location.href = 'home.html';
+                return false;
+            }
+            
+            return user;
+        }
+        
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            const user = checkLoginStatus();
+            if (!user) return;
+            
+            const reportForm = document.getElementById('report-form');
+            const violationTypeRadios = document.querySelectorAll('input[name="violationType"]');
+            const otherReasonGroup = document.getElementById('other-reason-group');
+            const evidenceUpload = document.getElementById('evidence-upload');
+            const filePreview = document.getElementById('file-preview');
+            const successModal = document.getElementById('success-modal');
+            const backBtn = document.getElementById('back-btn');
+            
+            // 违规类型选择处理
+            violationTypeRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === '其他') {
+                        otherReasonGroup.classList.remove('hidden');
+                        document.getElementById('other-reason').setAttribute('required', 'required');
+                    } else {
+                        otherReasonGroup.classList.add('hidden');
+                        document.getElementById('other-reason').removeAttribute('required');
+                    }
+                });
+            });
+            
+            // 单选框选中样式
+            const radioItems = document.querySelectorAll('.radio-item');
+            radioItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const radio = this.querySelector('input[type="radio"]');
+                    const name = radio.getAttribute('name');
+                    
+                    // 清除同组其他选项的选中状态
+                    document.querySelectorAll(`input[name="${name}"]`).forEach(r => {
+                        r.closest('.radio-item').classList.remove('selected');
+                    });
+                    
+                    // 设置当前选项为选中状态
+                    radio.checked = true;
+                    this.classList.add('selected');
+                });
+            });
+            
+            // 文件上传预览
+            evidenceUpload.addEventListener('change', function(e) {
+                const files = e.target.files;
+                if (!files.length) return;
+                
+                filePreview.innerHTML = '';
+                
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(event) {
+                        const previewItem = document.createElement('div');
+                        previewItem.className = 'file-preview-item';
+                        
+                        const img = document.createElement('img');
+                        img.src = event.target.result;
+                        img.alt = file.name;
+                        
+                        const removeBtn = document.createElement('div');
+                        removeBtn.className = 'file-preview-remove';
+                        removeBtn.innerHTML = '&times;';
+                        removeBtn.onclick = function() {
+                            previewItem.remove();
+                            
+                            // 重置文件输入，否则无法再次选择相同文件
+                            const newInput = document.createElement('input');
+                            newInput.type = 'file';
+                            newInput.id = 'evidence-upload';
+                            newInput.name = 'evidence';
+                            newInput.accept = 'image/*';
+                            newInput.multiple = true;
+                            
+                            newInput.addEventListener('change', evidenceUpload.onchange);
+                            
+                            evidenceUpload.parentNode.replaceChild(newInput, evidenceUpload);
+                            evidenceUpload = newInput;
+                        };
+                        
+                        previewItem.appendChild(img);
+                        previewItem.appendChild(removeBtn);
+                        filePreview.appendChild(previewItem);
+                    };
+                    
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            // 表单提交处理
+            reportForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                // 获取表单数据
+                const formData = new FormData(reportForm);
+                const reportData = {
+                    id: Date.now().toString(),
+                    reporterId: user.id,
+                    reportedUsername: formData.get('reportedUsername'),
+                    reportedQq: formData.get('reportedQq'),
+                    group: formData.get('group'),
+                    violationType: formData.get('violationType'),
+                    otherReason: formData.get('otherReason') || '',
+                    description: formData.get('description'),
+                    evidence: [], // 实际应用中这里会存储图片URL
+                    status: 'pending',
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                };
+                
+                // 在实际应用中，这里会上传图片并获取URL
+                // 这里我们使用模拟数据
+                if (evidenceUpload.files.length > 0) {
+                    for (let i = 0; i < evidenceUpload.files.length; i++) {
+                        reportData.evidence.push(`evidence-${reportData.id}-${i}.jpg`);
+                    }
+                }
+                
+                // 保存举报数据
+                const reports = JSON.parse(localStorage.getItem('reports') || '[]');
+                reports.push(reportData);
+                localStorage.setItem('reports', JSON.stringify(reports));
+                
+                // 显示成功模态框
+                successModal.classList.remove('hidden');
+            });
+            
+            // 返回按钮点击事件
+            backBtn.addEventListener('click', function() {
+                window.location.href = 'home.html';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>江西粤东气象社区交流安全中心 - 处罚通知</title>
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                        secondary: '#3b82f6',
+                        accent: '#f59e0b',
+                        danger: '#dc2626',
+                        success: '#10b981',
+                        light: '#f3f4f6',
+                        dark: '#1f2937'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .bg-gradient-primary {
+                background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            .transition-all-300 {
+                transition: all 300ms ease-in-out;
+            }
+        }
+    </style>
+    <style>
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: #f8fafc;
+            padding-bottom: 60px; /* 为底部导航栏留出空间 */
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+        .nav-item {
+            flex: 1;
+            text-align: center;
+            padding: 10px 0;
+            color: #6b7280;
+            transition: all 0.3s;
+        }
+        .nav-item.active {
+            color: #3b82f6;
+        }
+        .nav-item i {
+            display: block;
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        .nav-item span {
+            font-size: 12px;
+        }
+        .notification-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .notification-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1e40af;
+        }
+        .punishment-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .punishment-item {
+            border-bottom: 1px solid #f3f4f6;
+            padding: 16px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .punishment-item:last-child {
+            border-bottom: none;
+        }
+        .punishment-item:hover {
+            background-color: #f9fafb;
+        }
+        .punishment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .punishment-type {
+            font-weight: 500;
+            color: #dc2626;
+        }
+        .punishment-status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status-active {
+            background-color: #fca5a5;
+            color: #991b1b;
+        }
+        .status-expired {
+            background-color: #d1d5db;
+            color: #4b5563;
+        }
+        .status-appealing {
+            background-color: #60a5fa;
+            color: #1e40af;
+        }
+        .status-appealed {
+            background-color: #4ade80;
+            color: #166534;
+        }
+        .punishment-content {
+            margin-bottom: 8px;
+        }
+        .punishment-detail {
+            display: flex;
+            margin-bottom: 4px;
+            font-size: 14px;
+            color: #4b5563;
+        }
+        .punishment-detail-label {
+            width: 80px;
+            color: #6b7280;
+        }
+        .punishment-date {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 32px 0;
+            color: #6b7280;
+        }
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: #d1d5db;
+        }
+        .empty-state-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        .empty-state-message {
+            font-size: 14px;
+        }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            z-index: 1000;
+            padding-top: 20px;
+            overflow-y: auto;
+        }
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            padding: 16px;
+            border-bottom: 1px solid #f3f4f6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #6b7280;
+            cursor: pointer;
+        }
+        .modal-body {
+            padding: 16px;
+        }
+        .detail-section {
+            margin-bottom: 24px;
+        }
+        .detail-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1e40af;
+        }
+        .detail-item {
+            margin-bottom: 12px;
+        }
+        .detail-label {
+            font-weight: 500;
+            margin-bottom: 4px;
+            color: #4b5563;
+        }
+        .detail-value {
+            font-size: 14px;
+            color: #6b7280;
+        }
+        .evidence-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .evidence-item {
+            width: 80px;
+            height: 80px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .evidence-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .punishment-reason {
+            background-color: #fef2f2;
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #991b1b;
+        }
+        .appeal-section {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid #f3f4f6;
+        }
+        .appeal-button {
+            width: 100%;
+            padding: 12px;
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .appeal-button:hover {
+            background-color: #2563eb;
+        }
+        .appeal-button:disabled {
+            background-color: #93c5fd;
+            cursor: not-allowed;
+        }
+        .appeal-status {
+            text-align: center;
+            padding: 16px;
+            color: #1e40af;
+        }
+        .appeal-status i {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        .appeal-result {
+            margin-top: 16px;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .appeal-result-approved {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        .appeal-result-rejected {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-primary">处罚通知</h1>
+            <button id="back-btn" class="text-gray-500 hover:text-primary">
+                <i class="fa fa-arrow-left"></i>
+            </button>
+        </div>
+    </header>
+    
+    <!-- 主要内容 -->
+    <main class="container mx-auto px-4 py-6">
+        <div class="notification-container">
+            <div class="notification-title">我的处罚记录</div>
+            
+            <ul id="punishment-list" class="punishment-list">
+                <!-- 处罚记录将通过JavaScript动态生成 -->
+            </ul>
+            
+            <div id="empty-state" class="empty-state hidden">
+                <i class="fa fa-check-circle"></i>
+                <h3 class="empty-state-title">暂无处罚记录</h3>
+                <p class="empty-state-message">您目前没有收到任何处罚通知</p>
+            </div>
+        </div>
+    </main>
+    
+    <!-- 底部导航栏 -->
+    <nav class="bottom-nav">
+        <div class="flex justify-around">
+            <div class="nav-item" onclick="window.location.href='home.html'">
+                <i class="fa fa-home"></i>
+                <span>首页</span>
+            </div>
+            <div class="nav-item" onclick="window.location.href='report.html'">
+                <i class="fa fa-flag"></i>
+                <span>我要举报</span>
+            </div>
+            <div class="nav-item" onclick="window.location.href='progress.html'">
+                <i class="fa fa-tasks"></i>
+                <span>处理进度</span>
+            </div>
+            <div class="nav-item" onclick="window.location.href='more.html'">
+                <i class="fa fa-ellipsis-h"></i>
+                <span>更多</span>
+            </div>
+            <div class="nav-item active" onclick="window.location.href='profile.html'">
+                <i class="fa fa-user"></i>
+                <span>我</span>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- 处罚详情模态框 -->
+    <div id="detail-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">处罚详情</h3>
+                <button class="modal-close" id="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- 处罚详情将通过JavaScript动态生成 -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 获取当前用户
+        function getCurrentUser() {
+            const user = localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser');
+            return user ? JSON.parse(user) : null;
+        }
+        
+        // 检查登录状态
+        function checkLoginStatus() {
+            const user = getCurrentUser();
+            if (!user) {
+                window.location.href = '../index.html';
+                return false;
+            }
+            return user;
+        }
+        
+        // 格式化日期
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleString('zh-CN', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+        
+        // 获取处罚类型中文名称
+        function getPunishmentTypeName(type) {
+            switch (type) {
+                case 'ban':
+                    return '封禁权限';
+                case 'mute':
+                    return '禁言';
+                case 'warning':
+                    return '警告';
+                default:
+                    return type;
+            }
+        }
+        
+        // 获取处罚时长中文描述
+        function getDurationDescription(duration) {
+            if (duration === 0) return '永久';
+            if (duration < 60) return `${duration}分钟`;
+            if (duration < 1440) return `${Math.floor(duration / 60)}小时`;
+            return `${Math.floor(duration / 1440)}天`;
+        }
+        
+        // 获取状态标签样式
+        function getStatusClass(status, appealStatus) {
+            if (appealStatus === 'pending') return 'status-appealing';
+            if (appealStatus === 'approved') return 'status-appealed';
+            
+            switch (status) {
+                case 'active':
+                    return 'status-active';
+                case 'expired':
+                    return 'status-expired';
+                default:
+                    return '';
+            }
+        }
+        
+        // 获取状态中文名称
+        function getStatusName(status, appealStatus) {
+            if (appealStatus === 'pending') return '申诉中';
+            if (appealStatus === 'approved') return '申诉通过';
+            if (appealStatus === 'rejected') return '申诉驳回';
+            
+            switch (status) {
+                case 'active':
+                    return '处罚中';
+                case 'expired':
+                    return '已过期';
+                default:
+                    return status;
+            }
+        }
+        
+        // 检查处罚是否已过期
+        function checkPunishmentExpired(endTime) {
+            if (!endTime) return false;
+            return new Date(endTime) < new Date();
+        }
+        
+        // 加载处罚记录
+        function loadPunishments(user) {
+            const punishments = JSON.parse(localStorage.getItem('punishments') || '[]');
+            const userPunishments = punishments.filter(punishment => punishment.userId === user.id);
+            
+            const punishmentList = document.getElementById('punishment-list');
+            const emptyState = document.getElementById('empty-state');
+            
+            if (userPunishments.length === 0) {
+                punishmentList.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            
+            punishmentList.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+            
+            // 按时间倒序排序
+            userPunishments.sort((a, b) => new Date(b.startTime) - new Date(a.startTime));
+            
+            // 生成处罚记录列表
+            punishmentList.innerHTML = '';
+            userPunishments.forEach(punishment => {
+                // 检查处罚是否已过期
+                const isExpired = checkPunishmentExpired(punishment.endTime);
+                const status = isExpired ? 'expired' : 'active';
+                
+                const listItem = document.createElement('li');
+                listItem.className = 'punishment-item';
+                listItem.dataset.id = punishment.id;
+                
+                listItem.innerHTML = `
+                    <div class="punishment-header">
+                        <div class="punishment-type">${getPunishmentTypeName(punishment.type)}</div>
+                        <div class="punishment-status ${getStatusClass(status, punishment.appealStatus)}">${getStatusName(status, punishment.appealStatus)}</div>
+                    </div>
+                    <div class="punishment-content">
+                        <div class="punishment-detail">
+                            <div class="punishment-detail-label">处罚原因:</div>
+                            <div>${punishment.reason}</div>
+                        </div>
+                        <div class="punishment-detail">
+                            <div class="punishment-detail-label">处罚时长:</div>
+                            <div>${getDurationDescription(punishment.duration)}</div>
+                        </div>
+                    </div>
+                    <div class="punishment-date">${formatDate(punishment.startTime)}</div>
+                `;
+                
+                punishmentList.appendChild(listItem);
+                
+                // 添加点击事件，显示详情
+                listItem.addEventListener('click', function() {
+                    showPunishmentDetail(punishment);
+                });
+            });
+        }
+        
+        // 显示处罚详情
+        function showPunishmentDetail(punishment) {
+            const modal = document.getElementById('detail-modal');
+            const modalBody = document.getElementById('modal-body');
+            
+            // 检查处罚是否已过期
+            const isExpired = checkPunishmentExpired(punishment.endTime);
+            const status = isExpired ? 'expired' : 'active';
+            
+            // 获取用户信息
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const user = users.find(u => u.id === punishment.userId);
+            
+            // 生成详情内容
+            modalBody.innerHTML = `
+                <div class="detail-section">
+                    <div class="detail-title">处罚信息</div>
+                    <div class="detail-item">
+                        <div class="detail-label">处罚类型</div>
+                        <div class="detail-value">${getPunishmentTypeName(punishment.type)}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">处罚状态</div>
+                        <div class="detail-value">
+                            <span class="punishment-status ${getStatusClass(status, punishment.appealStatus)}">${getStatusName(status, punishment.appealStatus)}</span>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">处罚原因</div>
+                        <div class="detail-value">${punishment.reason}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">处罚时长</div>
+                        <div class="detail-value">${getDurationDescription(punishment.duration)}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">生效时间</div>
+                        <div class="detail-value">${formatDate(punishment.startTime)}</div>
+                    </div>
+                    ${punishment.duration > 0 ? `
+                    <div class="detail-item">
+                        <div class="detail-label">${isExpired ? '过期时间' : '解封时间'}</div>
+                        <div class="detail-value">${formatDate(punishment.endTime)}</div>
+                    </div>
+                    ` : ''}
+                </div>
+                
+                <div class="detail-section">
+                    <div class="detail-title">处罚说明</div>
+                    <div class="punishment-reason">${punishment.description || '根据社区规定，您的账号因违反相关规定被处罚。'}</div>
+                </div>
+                
+                ${punishment.evidence && punishment.evidence.length > 0 ? `
+                <div class="detail-section">
+                    <div class="detail-title">违规证据</div>
+                    <div class="evidence-container">
+                        ${punishment.evidence.map(evidence => `
+                            <div class="evidence-item">
+                                <img src="https://picsum.photos/seed/${evidence}/200/200" alt="证据图片">
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                ` : ''}
+                
+                <div class="appeal-section">
+                    ${punishment.appealStatus === 'pending' ? `
+                    <div class="appeal-status">
+                        <i class="fa fa-spinner fa-spin"></i>
+                        <p>申诉处理中</p>
+                        <p class="text-sm text-gray-500">我们正在处理您的申诉，请耐心等待</p>
+                    </div>
+                    ` : punishment.appealStatus === 'approved' ? `
+                    <div class="appeal-status">
+                        <i class="fa fa-check-circle text-green-500"></i>
+                        <p>申诉已通过</p>
+                    </div>
+                    <div class="appeal-result appeal-result-approved">
+                        <p><strong>处理结果：</strong>您的申诉已通过，处罚已撤销。</p>
+                        <p><strong>处理理由：</strong>${punishment.appealResponse || '经复核，您的行为不构成违规或情节轻微，原处罚决定予以撤销。'}</p>
+                    </div>
+                    ` : punishment.appealStatus === 'rejected' ? `
+                    <div class="appeal-status">
+                        <i class="fa fa-times-circle text-red-500"></i>
+                        <p>申诉已驳回</p>
+                    </div>
+                    <div class="appeal-result appeal-result-rejected">
+                        <p><strong>处理结果：</strong>您的申诉已驳回，原处罚决定维持不变。</p>
+                        <p><strong>处理理由：</strong>${punishment.appealResponse || '经复核，原处罚决定事实清楚、依据充分，申诉理由不成立。'}</p>
+                    </div>
+                    ` : (status === 'active' && !punishment.appealStatus) ? `
+                    <button class="appeal-button" onclick="window.location.href='appeal.html?id=${punishment.id}'">我要申诉</button>
+                    ` : `
+                    <div class="appeal-status">
+                        <p>无法申诉</p>
+                        <p class="text-sm text-gray-500">该处罚已过期或已申诉</p>
+                    </div>
+                    `}
+                </div>
+            `;
+            
+            // 显示模态框
+            modal.classList.remove('hidden');
+        }
+        
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            const user = checkLoginStatus();
+            if (!user) return;
+            
+            // 加载处罚记录
+            loadPunishments(user);
+            
+            // 返回按钮点击事件
+            document.getElementById('back-btn').addEventListener('click', function() {
+                window.location.href = 'home.html';
+            });
+            
+            // 关闭模态框
+            document.getElementById('modal-close').addEventListener('click', function() {
+                document.getElementById('detail-modal').classList.add('hidden');
+            });
+            
+            // 点击模态框外部关闭
+            window.addEventListener('click', function(event) {
+                const modal = document.getElementById('detail-modal');
+                if (event.target === modal) {
+                    modal.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
